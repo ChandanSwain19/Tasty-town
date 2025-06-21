@@ -1,0 +1,23 @@
+server:
+    port: 1370
+    servlet:
+      context-path: /tasty-town
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/tasty-town
+    username: root
+    password: chandan
+ 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+    show-sql: true  
+
+ 
+upload:
+  file:
+    dir: images        
