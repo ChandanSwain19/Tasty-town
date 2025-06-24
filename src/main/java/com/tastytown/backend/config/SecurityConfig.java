@@ -11,8 +11,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.tastytown.backend.security.CustomUserDetailsService;
+import com.tastytown.backend.security.jwt.JwtFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
+    private final JwtFilter jwtFilter;
     
 
     @Bean
@@ -41,11 +44,14 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.PUT, "/api/v1/categories/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**").hasRole("ADMIN")
 
+                    .requestMatchers("/api/v1/cart/**").authenticated()
+
                    
 
                     .anyRequest().authenticated()
                     
                     )
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                     .build();
 
 
